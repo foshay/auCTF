@@ -13,8 +13,14 @@ then
 fi
 echo $wordlist
 echo $zipfile
-hashfile=$(echo "$zipfile" | cut -f 1 -d '.')
-echo "$hashfile.hash"
-
-	
-
+hashfile="$(echo "$zipfile" | cut -f 1 -d '.').hash"
+echo $hashfile
+sudo zip2john $zipfile > $hashfile
+sudo john -w=$wordlist $hashfile
+pass=$(printf $(sudo john --show $hashfile) | cut -f2 -d ":")
+7z x -p$pass $zipfile
+printf -- '-%.0s' {1..80}; echo ""
+echo "Password: $pass"
+files=$(zipinfo -1 $zipfile)
+echo "Files extracted: $files"
+printf -- '-%.0s' {1..80}; echo ""
