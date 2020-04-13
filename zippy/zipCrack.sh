@@ -11,6 +11,13 @@ then
 	wordlist=$2
 	zipfile=$3
 fi
+if [ "$1" == "-h" ]
+then
+	echo "-w <path to wordlist> |  to set location of wordlist"
+	echo "default wordlist is at /usr/share/wordlists/rockyou.txt"
+	echo "default usage is zipCrack.sh file.zip"
+	exit 1
+fi
 echo $wordlist
 echo $zipfile
 hashfile="$(echo "$zipfile" | cut -f 1 -d '.').hash"
